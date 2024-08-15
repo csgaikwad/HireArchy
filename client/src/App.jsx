@@ -43,7 +43,8 @@ function App() {
 
   const dispatch = useDispatch()
 
-    axios.defaults.baseURL = "http://localhost:8000";
+    axios.defaults.baseURL = "https://purring-tasha-sidssg-1280785b.koyeb.app/";
+    // axios.defaults.baseURL = "http://localhost:8000";
 
   const { isLogin } = useSelector(state => state.user)
 
