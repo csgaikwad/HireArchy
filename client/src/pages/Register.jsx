@@ -30,37 +30,45 @@ export const Register = () => {
   const [resume, setResume] = useState("")
   const [resumeName, setResumeName] = useState("")
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 
-  const avatarChange = (e) => {
-    if (e.target.name === "avatar") {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setAvatar(reader.result);
-          setAvatarName(e.target.files[0].name)
-        }
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
+const avatarChange = (e) => {
+  if (e.target.name === "avatar") {
+    const file = e.target.files[0];
+    if (file.size > MAX_FILE_SIZE) {
+      alert("Avatar file size should not exceed 5MB");
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatar(reader.result);
+        setAvatarName(file.name);
+      }
+    };
+    reader.readAsDataURL(file);
   }
+};
 
 
-
-  const resumeChange = (e) => {
-    if (e.target.name === "resume") {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setResume(reader.result);
-          setResumeName(e.target.files[0].name)
-        }
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
+const resumeChange = (e) => {
+  if (e.target.name === "resume") {
+    const file = e.target.files[0];
+    if (file.size > MAX_FILE_SIZE) {
+      alert("Resume file size should not exceed 5MB");
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setResume(reader.result);
+        setResumeName(file.name);
+      }
+    };
+    reader.readAsDataURL(file);
   }
+};
 
 
   const registerHandler = (e) => {
