@@ -1,78 +1,77 @@
-const mongoose = require('mongoose')
-const validator = require('validator')
+const mongoose = require("mongoose");
+const validator = require("validator");
 
 const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, "Please enter your name"],
+  },
 
+  email: {
+    type: String,
+    required: true,
+    validate: [validator.isEmail, "Please Enter valid email address"],
+    unique: true,
+  },
 
-    name: {
-        type: String,
-        required: [true, "Please enter your name"]
+  password: {
+    type: String,
+    required: [true, "Please enter a password"],
+  },
+
+  avatar: {
+    public_id: {
+      type: String,
+      required: true,
     },
-
-    email: {
-        type: String,
-        required: true,
-        validate: [validator.isEmail, "Please Enter valid email address"],
-        unique: true
+    url: {
+      type: String,
+      required: true,
     },
+  },
 
-    password: {
-        type: String,
-        required: [true, "Please enter a password"]
+  role: {
+    type: String,
+    enum: ["applicant", "admin"],
+    default: "applicant",
+  },
+
+  skills: [
+    {
+      type: String,
     },
+  ],
 
-    avatar: {
-        public_id: {
-            type: String,
-            required: true
-        },
-        url: {
-            type: String,
-            required: true
-        },
+  resume: {
+    public_id: {
+      type: String,
+      required: false,
     },
-
-    role: {
-        type: String,
-        enum: ["applicant", "admin"],
-        default: "applicant"
+    url: {
+      type: String,
+      required: false,
     },
-
-    skills: [
-        {
-            type: String
-        }
-    ],
-
-    resume: {
-        public_id: {
-            type: String,
-            required: false
-        },
-        url: {
-            type: String,
-            required: false
-        },
-
+  },
+  savedJobs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Job",
     },
-    savedJobs: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Job'
-        }
-    ],
-    appliedJobs: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Application'
-        }
-    ],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+  ],
+  appliedJobs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Application",
+    },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-})
+UserSchema.index({ email: 1 }, { unique: true });
 
-const User = mongoose.model('User', UserSchema)
-module.exports = User
+
+const User = mongoose.model("User", UserSchema);
+module.exports = User;

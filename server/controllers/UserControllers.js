@@ -7,6 +7,10 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password, avatar, skills, resume } = req.body;
 
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
     const myCloud = await cloudinary.v2.uploader.upload(avatar, {
       folder: "avatar",
 
