@@ -9,8 +9,8 @@ const UserSchema = new mongoose.Schema({
 
   email: {
     type: String,
-    required: true,
-    validate: [validator.isEmail, "Please Enter valid email address"],
+    required: [true, "Please enter your email address"],
+    validate: [validator.isEmail, "Please enter a valid email address"],
     unique: true,
   },
 
@@ -71,7 +71,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.index({ email: 1 }, { unique: true });
-
 
 const User = mongoose.model("User", UserSchema);
 module.exports = User;
