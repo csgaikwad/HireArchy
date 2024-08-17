@@ -29,9 +29,8 @@ export const Jobs = () => {
   }, []);
 
   useEffect(() => {
-    const duplicatedJobs = Array(26).fill(allJobs).flat();
-    setJobs(duplicatedJobs);
-    setBaseJobs(duplicatedJobs);
+    setJobs(allJobs);
+    setBaseJobs(allJobs);
   }, [allJobs]);
 
   useEffect(() => {
