@@ -24,24 +24,14 @@ export const Jobs = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const data = ["Technology", "Marketing", "Finance", "Sales", "Legal"];
-
-  const companyData = [
-    "Google",
-    "Apple",
-    "Paypal",
-    "Samsung",
-    "Amazon",
-    "Oracle",
-  ];
-
   useEffect(() => {
     dispatch(getAllJobs());
   }, []);
 
   useEffect(() => {
-    setJobs(allJobs);
-    setBaseJobs(allJobs); // Set base jobs when allJobs changes
+    const duplicatedJobs = Array(26).fill(allJobs).flat();
+    setJobs(duplicatedJobs);
+    setBaseJobs(duplicatedJobs);
   }, [allJobs]);
 
   useEffect(() => {
@@ -68,50 +58,6 @@ export const Jobs = () => {
     } else if (searchArr.length === 0) {
       setJobs(baseJobs);
     }
-  };
-  const leftFilter = (jobsList) => {
-console.log(jobsList);
-console.log(baseJobs);
-    if (category === "" && salary === 0) {
-      setJobs(baseJobs);
-      return;
-    }
-
-    const leftFilArr = jobsList.filter((item) => {
-      const matchesCategory = category
-        ? item.category.toLowerCase() === category.toLowerCase()
-        : true;
-      const matchesSalary = salary
-        ? parseInt(item.salary) >= parseInt(salary)
-        : true;
-
-      return matchesCategory && matchesSalary;
-    });
-
-    setJobs(leftFilArr);
-  };
-
-  const removeLeftFilter = () => {
-    setCategory("");
-    setSalary(0);
-    rightFilter(allJobs);
-    setCurrentPage(1);
-  };
-
-  const rightFilter = (jobsList) => {
-    if (company == "") {
-      setJobs(allJobs);
-      return;
-    }
-    const rightFilArr = jobsList.filter(
-      (item) => item.companyName.toLowerCase() === company.toLowerCase()
-    );
-    setJobs(rightFilArr);
-  };
-  const removeRightFilter = () => {
-    setCompany("");
-    leftFilter(allJobs);
-    setCurrentPage(1);
   };
 
   // Pagination
@@ -170,13 +116,13 @@ console.log(baseJobs);
         ) : (
           <>
             <div className="flex-col flex justify-center items-center w-full ">
-              <div className="text-center pt-8 md:text-3xl text-2xl font-medium">
+              <div className="text-center pt-8 md:text-2xl text-xl font-medium">
                 <p>Find your dream job now</p>
               </div>
-              <div className="py-3 pt-4 w-full flex justify-center items-center">
+              <div className="py-3 pt-4 w-full flex justify-center items-center ">
                 <div className="flex  justify-center w-full  items-center  ">
-                  <div className="bg-white flex md:w-2/5 w-4/5">
-                    <div className="flex justify-center items-center pl-2 text-black">
+                  <div className="bg-gray-700 flex md:w-2/5 w-4/5 rounded-md overflow-hidden mb-2">
+                    <div className="flex justify-center items-center pl-2 text-white">
                       {" "}
                       <FiSearch size={19} />{" "}
                     </div>
@@ -185,9 +131,9 @@ console.log(baseJobs);
                       placeholder="Search Jobs "
                       onChange={(e) => setSearch(e.target.value)}
                       type="text"
-                      className="outline-none bold-placeholder   text-black px-2 pl-3 md:h-10 w-full h-8 py-1 text-sm"
+                      className="outline-none bold-placeholder bg-gray-700  text-white px-2 pl-3 md:h-10 w-full h-8 py-1 text-sm"
                     />
-                    <div className="text-black items-center flex justify-center px-2 ">
+                    <div className="items-center flex justify-center px-2 ">
                       <RxCross2
                         onClick={() => setSearch("")}
                         size={19}
@@ -206,61 +152,9 @@ console.log(baseJobs);
                 </div>
               </div>
 
-              <div className=" flex flex-col pt-1 justify-between md:flex-row w-full ">
-                <div className="filter1  md:flex hidden flex-col">
-                  <div className="flex justify-start  flex-col filter  ">
-                    <p className="text-xl underline underline-offset-4">
-                      Categories
-                    </p>
-                    <ul className="flex pt-3 flex-col gap-3">
-                      {data.map((e, i) => (
-                        <li
-                          key={i}
-                          onClick={() => setCategory(e)}
-                          className={`hover:text-yellow-600 cursor-pointer ${
-                            category === e ? "text-yellow-600" : ""
-                          } `}
-                        >
-                          {e}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="pt-5">
-                      <p className="text-xl pb-3 underline underline-offset-4">
-                        Min. Salary (Lpa)
-                      </p>
-
-                      <Slider
-                        color="indigo"
-                        className="outline-none w-44"
-                        onChange={(value) => {
-                          setSalary(value * 100000);
-                        }}
-                        value={salary / 100000}
-                        min={0}
-                        max={20}
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-4 w-2/3 pt-5">
-                      <button
-                        onClick={() => leftFilter(jobs)}
-                        className="blueCol px-1 py-1 text-xs"
-                      >
-                        Apply Filter
-                      </button>
-                      <button
-                        onClick={() => removeLeftFilter()}
-                        className="blueCol px-1 py-1 text-xs"
-                      >
-                        Remove Filter
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="md:w-2/4 pb-20 pt-2">
-                  <div className="flex  flex-col md:overflow-y-auto  md:max-h-[30em] gap-4">
+              <div className=" flex flex-col pt-1 justify-center items-center md:flex-row w-full ">
+                <div className="md:w-[65%] pb-20 pt-2">
+                  <div className="flex  flex-col md:overflow-y-auto  md:max-h-[30rem] gap-4">
                     {
                       // jobs && jobs
                       jobs &&
@@ -292,13 +186,13 @@ console.log(baseJobs);
                   </div>
 
                   <div className={` justify-center pt-20 items-center`}>
-                    <div className="flex  flex-col">
-                      {/* Pagination */}
-                      <div className="flex justify-center mt-1">
+                    {/* Pagination */}
+                    <div className="flex flex-col ">
+                      <div className="flex justify-center items-center mt-1">
                         <button
                           onClick={handlePrevPage}
                           disabled={currentPage === 1}
-                          className="bg-gray-900 border border-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 mr-2"
+                          className="bg-gray-900 border border-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 mr-2 cursor-pointer"
                         >
                           Previous
                         </button>
@@ -308,135 +202,11 @@ console.log(baseJobs);
                         <button
                           onClick={handleNextPage}
                           disabled={currentPage === totalPageCount}
-                          className="bg-gray-900 border border-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 ml-2"
+                          className="bg-gray-900 border border-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 ml-2 cursor-pointer"
                         >
                           Next
                         </button>
                       </div>
-
-                      {/* Mobile Filters */}
-                      <div className="flex  justify-between pt-10 px-6">
-                        <div className="filter1  md:hidden flex flex-col">
-                          <div className="flex justify-start  flex-col filter  ">
-                            <p className="text-lg underline underline-offset-4">
-                              Categories
-                            </p>
-                            <ul className="flex pt-3 text-sm flex-col gap-3">
-                              {data.map((e, i) => (
-                                <li
-                                  key={i}
-                                  onClick={() => setCategory(e)}
-                                  className={`hover:text-yellow-600 cursor-pointer ${
-                                    category === e ? "text-yellow-600" : ""
-                                  } `}
-                                >
-                                  {e}
-                                </li>
-                              ))}
-                            </ul>
-                            <div className="pt-5">
-                              <p className="text-xl pb-3 underline underline-offset-4">
-                                Salary
-                              </p>
-
-                              <Slider
-                                color="indigo"
-                                className="outline-none w-32"
-                                onChange={setSalary}
-                                value={salary}
-                                min={0}
-                                max={2000000}
-                              />
-                            </div>
-
-                            <div className="flex text-sm flex-col gap-4 w-2/3 pt-5">
-                              <button
-                                onClick={() => leftFilter(jobs)}
-                                className="blueCol px-1 py-1 text-xs"
-                              >
-                                Apply Filter
-                              </button>
-                              <button
-                                onClick={() => removeLeftFilter()}
-                                className="blueCol px-1 py-1 text-xs"
-                              >
-                                Remove Filter
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="filter2  md:hidden flex flex-col ml-16">
-                          <div className="flex justify-end  flex-col filter  ">
-                            <p className="text-lg underline underline-offset-4">
-                              Companies
-                            </p>
-
-                            <div className="pt-3 flex flex-col justify-end text-right gap-3">
-                              {companyData.map((e, i) => (
-                                <div
-                                  key={i}
-                                  onClick={() => setCompany(e)}
-                                  className={`${
-                                    company === e ? "text-yellow-600" : ""
-                                  } cursor-pointer text-sm hover:text-yellow-600`}
-                                >
-                                  {e}
-                                </div>
-                              ))}
-                            </div>
-                            <div className="flex text-sm flex-col gap-4 pt-5">
-                              <button
-                                onClick={() => rightFilter(jobs)}
-                                className="blueCol px-1 py-1 text-xs"
-                              >
-                                Apply Search
-                              </button>
-                              <button
-                                onClick={() => removeRightFilter()}
-                                className="blueCol px-1 py-1 text-xs"
-                              >
-                                Remove Search
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="filter2  md:flex hidden flex-col ml-16">
-                  <div className="flex justify-end  flex-col filter  ">
-                    <p className="text-xl underline underline-offset-4">
-                      Companies
-                    </p>
-
-                    <div className="pt-3 flex flex-col justify-end text-right gap-3">
-                      {companyData.map((e, i) => (
-                        <div
-                          key={i}
-                          onClick={() => setCompany(e)}
-                          className={`${
-                            company === e ? "text-yellow-600" : ""
-                          } cursor-pointer hover:text-yellow-600`}
-                        >
-                          {e}
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex flex-col gap-4 pt-5">
-                      <button
-                        onClick={() => rightFilter(jobs)}
-                        className="blueCol px-1 py-1 text-xs"
-                      >
-                        Apply Search
-                      </button>
-                      <button
-                        onClick={() => removeRightFilter()}
-                        className="blueCol px-1 py-1 text-xs"
-                      >
-                        Remove Search
-                      </button>
                     </div>
                   </div>
                 </div>

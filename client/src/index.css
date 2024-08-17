@@ -4,9 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-@apply scroll-smooth;
+body {
+  @apply scroll-smooth;
 }
+
 /* Hide scrollbar for WebKit browsers */
 ::-webkit-scrollbar {
   width: 10px;
@@ -64,6 +65,7 @@ body{
 
 .titleT {
   font-family: "IBM Plex Sans", sans-serif;
+  font-size: larger;
 }
 
 .bold-placeholder::placeholder {
@@ -119,6 +121,7 @@ font-family: 'Ubuntu', sans-serif; */
   display: inline-block;
   color: #fff;
   text-decoration: none;
+  font-size: small;
 }
 
 .cool-link::after {

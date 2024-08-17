@@ -35,7 +35,7 @@ export const Navbar = () => {
             <div className='text-white z-20 fixed min-w-full bg-gray-950'>
                 <ul className='md:flex hidden justify-center items-center gap-24 pt-4 pb-3 font-semibold text-xl'>
                 <Link to="/" className='flex fixed left-24 justify-center items-center titleT'>
-                        <MdOutlineBusinessCenter size={19} />  HireArchy
+                        <MdOutlineBusinessCenter size={20} />  HireArchy
                     </Link>
 
                     <Link to="/" className='cool-link'>Home</Link>
